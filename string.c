@@ -19,7 +19,7 @@ string *new_string() {
 
 string *of_str(const char *str) {
   string *result = malloc(sizeof(string));
-  result->size = strlen(str);
+  result->size = strlen(str)+1;
   result->capacity = result->size;
   result->ptr = malloc(sizeof(char)*result->capacity);
   strncpy(result->ptr, str, result->size);
@@ -35,7 +35,7 @@ string *of_int(const unsigned int i) {
   return result;
 }
 
-void push_string(string *str, const char c) {
+void string_push(string *str, const char c) {
   if (str->size < str->capacity) {
     *(str->ptr+str->size) = c;
     str->size += 1;
@@ -44,13 +44,13 @@ void push_string(string *str, const char c) {
     strncpy(new_ptr, str->ptr, str->size);
     free(str->ptr);
     str->ptr = new_ptr;
-    push_string(str, c);
+    string_push(str, c);
   }
 }
 
 void extend_string(string *destination, const string *source) {
   for (int i = 0; i < source->size; i++) {
-    push_string(destination, *(source->ptr+i));
+    string_push(destination, *(source->ptr+i));
   }
 }
 
