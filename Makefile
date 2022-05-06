@@ -1,8 +1,7 @@
 all: jpam.so
 
-jpam.so: jpam.o
-	gcc -shared -lpam -o jpam.so jpam.o
+jpam.so: jpam.o string.o challenge_gen.o
+	gcc -shared -fPIC -lpam -o jpam.so string.o challenge_gen.o jpam.o
 
-jpam.o: src/jpam.c
-	gcc -fPIC -o jpam.o -c src/jpam.c
-
+.c.o:
+	gcc -fPIC -o $@ -c $<

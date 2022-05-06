@@ -4,7 +4,6 @@
 #include <security/pam_ext.h>
 #include <security/pam_modules.h>
 #include "challenge_gen.h"
-#include "security/_pam_types.h"
 #include "string.h"
 
 PAM_EXTERN int pam_sm_setcred(pam_handle_t *pamh, int flags, int argc, const char **argv) {
