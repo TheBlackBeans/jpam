@@ -123,6 +123,7 @@ j_ast *gen_node(diff_t difficulty) {
     node->kind = rand() % J_AST_SIZE;
     *difficulty += compute_difficulty(node->kind);
     node->children.nb_children = nb_children(node->kind);
+    node->children.children = malloc(sizeof(void *)*node->children.nb_children);
     for (int i = 0; i < node->children.nb_children; i++) {
       *(node->children.children+i) = gen_node(difficulty);
     }
