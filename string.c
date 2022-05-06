@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 #include <stdio.h>
 
 #include "string.h"
@@ -17,21 +16,29 @@ string *new_string() {
   return result;
 }
 
+void string_add_capacity(string *str, unsigned int additional_capacity) {
+  str->capacity += additional_capacity;
+  char *new_ptr = malloc(str->capacity);
+  memcpy(new_ptr, str->ptr, str->capacity);
+  free(str->ptr);
+  str->ptr = new_ptr;
+}
+
 string *of_str(const char *str) {
   string *result = malloc(sizeof(string));
-  result->size = strlen(str)+1;
+  result->size = strlen(str);
   result->capacity = result->size;
   result->ptr = malloc(sizeof(char)*result->capacity);
-  strncpy(result->ptr, str, result->size);
+  memcpy(result->ptr, str, result->size);
   return result;
 }
 
-string *of_int(const unsigned int i) {
+string *of_int(const int i) {
   string *result = malloc(sizeof(string));
-  result->size = (unsigned int)log10(i);
-  result->capacity = result->size;
+  result->size = snprintf(NULL, 0, "%d", i);
+  result->capacity = result->size+1;
   result->ptr = malloc(sizeof(char)*result->capacity);
-  sprintf(result->ptr, "%d", i);
+  snprintf(result->ptr, result->capacity, "%d", i);
   return result;
 }
 
@@ -40,18 +47,25 @@ void string_push(string *str, const char c) {
     *(str->ptr+str->size) = c;
     str->size += 1;
   } else {
-    char *new_ptr = malloc(str->capacity * 2);
-    strncpy(new_ptr, str->ptr, str->size);
-    free(str->ptr);
-    str->ptr = new_ptr;
+    string_add_capacity(str, str->capacity);
     string_push(str, c);
   }
 }
 
 void extend_string(string *destination, const string *source) {
-  for (int i = 0; i < source->size; i++) {
-    string_push(destination, *(source->ptr+i));
+  if (destination->capacity < destination->size + source->size) {
+    string_add_capacity(destination, destination->size+source->size-destination->capacity);
   }
+  memcpy(destination->ptr+destination->size, source->ptr, source->size);
+  destination->size += source->size;
+}
+
+void print_string(string *str) {
+  char *c_str = malloc(sizeof(char)*(str->size+1));
+  memcpy(c_str, str->ptr, str->size);
+  *(c_str+str->size) = 0;
+  puts(c_str);
+  free(c_str);
 }
 
 void drop(string *str) {

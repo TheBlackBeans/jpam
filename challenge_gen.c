@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include "challenge_gen.h"
 #include "string.h"
 
-#define TARGET_DIFFICULTY 100
+#define TARGET_DIFFICULTY 50
 #define VALUE_RANGE 20
 
 unsigned int nb_children(const j_ast_kind kind) {
@@ -142,6 +143,8 @@ void drop_ast(j_ast *node) {
 j_challenge *gen_challenge() {
   diff_t difficulty = malloc(sizeof(unsigned int));
   *difficulty = 0;
+
+  srand(time(NULL));
 
   j_ast *root = gen_node(difficulty);
   j_challenge *result = malloc(sizeof(j_challenge));
