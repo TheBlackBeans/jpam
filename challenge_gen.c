@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
@@ -5,7 +6,7 @@
 #include "challenge_gen.h"
 #include "string.h"
 
-#define TARGET_DIFFICULTY 50
+#define TARGET_DIFFICULTY 35
 #define VALUE_RANGE 20
 
 unsigned int nb_children(const j_ast_kind kind) {
