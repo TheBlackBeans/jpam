@@ -50,8 +50,10 @@ void compute_value(j_ast *node) {
     node->value = (*node->children.children)->value + (*(node->children.children+1))->value;
     break;
   case DIFF:
-  case DIFF_SYM:
     node->value = (*node->children.children)->value - (*(node->children.children+1))->value;
+    break;
+  case DIFF_SYM:
+    node->value = (*(node->children.children+1))->value - (*node->children.children+1)->value;
     break;
   default:
     exit(EXIT_FAILURE);
