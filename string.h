@@ -14,6 +14,8 @@ string *of_str(const char *);
 string *of_int(const int);
 void string_push(string *, const char);
 void extend_string(string *, const string *);
+void extend_of_str(string *, const char *);
+void ensure_compt(string *);
 void drop(string *);
 void print_string(string *);
 #endif

@@ -18,8 +18,10 @@ PAM_EXTERN int pam_sm_acct_mgmt(pam_handle_t *pamh, int flags, int argc, const c
 PAM_EXTERN int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv) {
   const char *result;
   j_challenge *chal = gen_challenge();
-  string *prompt = of_str("Process this: ");
+  string *prompt = of_str("Process this ");
   extend_string(prompt, chal->code);
+  extend_of_str(prompt, "\n> ");
+  ensure_compt(prompt);
   int retval = pam_get_authtok(pamh, PAM_AUTHTOK, &result, prompt->ptr);
   drop(prompt);
   if (retval != PAM_SUCCESS) {

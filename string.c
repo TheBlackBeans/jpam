@@ -60,6 +60,19 @@ void extend_string(string *destination, const string *source) {
   destination->size += source->size;
 }
 
+void ensure_compt(string *str) {
+  if (str->size == 0 || *(str->ptr+str->size-1) != 0) {
+    string_push(str, 0);
+    str->size -= 1;
+  }
+}
+
+void extend_of_str(string *destination, const char *source) {
+  string *buffer = of_str(source);
+  extend_string(destination, buffer);
+  drop(buffer);
+}
+
 void print_string(string *str) {
   char *c_str = malloc(sizeof(char)*(str->size+1));
   memcpy(c_str, str->ptr, str->size);
